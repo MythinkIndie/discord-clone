@@ -25,6 +25,7 @@ import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectUser } from "../user/userSlice";
 import db, { auth } from "../firebase";
+import { selectProfileState } from "../user/editprofileSlice";
 
 function Sidebar() {
 
@@ -44,6 +45,8 @@ function Sidebar() {
     }
 
     const user = useSelector(selectUser);
+    const edit = useSelector(selectProfileState);
+
     const [channels, setChannels] = useState([]);
     const [seeChannels, setSeeChannels] = useState(true);
 
@@ -121,7 +124,7 @@ function Sidebar() {
                 <div className="sidebar__profileIcons">
                     <MicIcon />
                     <HeadsetIcon />
-                    <SettingsIcon />
+                    <SettingsIcon onClick={() => edit.changeState()}/>
                 </div>
             </div>
 

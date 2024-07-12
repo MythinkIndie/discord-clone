@@ -13,11 +13,13 @@ import { selectUser } from "../user/userSlice.js";
 import db from "../firebase.js";
 // eslint-disable-next-line no-unused-vars
 import { Timestamp, addDoc, collection, doc, getDocs, onSnapshot, orderBy, query } from "firebase/firestore"; 
+import { selectProfileState } from "../user/editprofileSlice.js";
 
 function Chat() {
 
     const channelId = useSelector(selectChannelId);
     const channelName = useSelector(selectChannelName);
+    const edit = useSelector(selectProfileState);
 
     const user = useSelector(selectUser);
 
@@ -47,8 +49,6 @@ function Chat() {
         
     }, [channelId]);
 
-    
-
     const sendMessage = e => {
         e.preventDefault();
 
@@ -63,40 +63,49 @@ function Chat() {
 
     return (
         <div className="chat">
-            <ChatHeader key={channelId} channelName={channelName} />
+            {edit ? (
+                <>
+                    <ChatHeader key={channelId} channelName={channelName} />
 
-            <div className="chat__messages">
-                {messages.map((message, index) => (
-                    <Message 
-                        key={index}
-                        timestamp={message.timestamp}
-                        message={message.message}
-                        user={message.user}/>
-                ))}
-            </div>
+                    <div className="chat__messages">
+                        {messages.map((message, index) => (
+                            <Message 
+                                key={index}
+                                timestamp={message.timestamp}
+                                message={message.message}
+                                user={message.user}/>
+                        ))}
+                    </div>
 
-            <div className="chat__input">
-                <div className="chat__inputIcons">
-                    <AddCircleOutlinedIcon fontSize="large"/>
-                </div>
-                <form>
-                    <input 
-                        type="text"
-                        value={input}
-                        disabled={!channelId}
-                        onChange={e => setInput(e.target.value)} 
-                        placeholder={`Message #${channelName}`}/>
-                    <button 
-                        disabled={!channelId}
-                        onClick={sendMessage}
-                        className="chat__inputButton" 
-                        type="submit">Send Message</button>
-                </form>
-                <div className="chat__inputIcons">
-                    <GifOutlinedIcon fontSize="large"/>
-                    <AddPhotoAlternateIcon fontSize="large"/>
-                </div>
-            </div>
+                    <div className="chat__input">
+                        <div className="chat__inputIcons">
+                            <AddCircleOutlinedIcon fontSize="large"/>
+                        </div>
+                        <form>
+                            <input 
+                                type="text"
+                                value={input}
+                                disabled={!channelId}
+                                onChange={e => setInput(e.target.value)} 
+                                placeholder={`Message #${channelName}`}/>
+                            <button 
+                                disabled={!channelId}
+                                onClick={sendMessage}
+                                className="chat__inputButton" 
+                                type="submit">Send Message</button>
+                        </form>
+                        <div className="chat__inputIcons">
+                            <GifOutlinedIcon fontSize="large"/>
+                            <AddPhotoAlternateIcon fontSize="large"/>
+                        </div>
+                    </div>
+                </>
+                ):(
+                <h1>
+                    HolaMundo
+                </h1>
+                )
+            }
         </div>
     );
 

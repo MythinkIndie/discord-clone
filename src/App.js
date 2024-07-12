@@ -7,7 +7,7 @@ import Chat from './features/chatComponent/chat';
 import Login from './features/loginComponent/login';
 import { auth } from './features/firebase.js';
 import './App.css';
-import { selectUser, login, logout} from './features/user/userSlice';
+import { selectUser, login, logout } from './features/user/userSlice';
 
 function App() {
 
